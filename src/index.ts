@@ -27,4 +27,9 @@ app.get("/leaderboard", (_req, res) => {
     return res.json(leaderboard);
 });
 
+app.post("/reset", (_req, res) => {
+    leaderboard.length = 0;
+    return res.send("Leaderboard has been reset.");
+});
+
 app.listen(3123);
