@@ -4,7 +4,7 @@ const app = createApp();
 
 interface leaderboardEntry {
     name: string;
-    score: number;
+    score: string;
 }
 
 const leaderboard: leaderboardEntry[] = []
@@ -16,10 +16,13 @@ app.get("/", (_req, res) => {
 app.post("/player", (req, res) => {
     const { name, score } = req.query;
     if (typeof name === "string" && typeof score === "string") {
-        leaderboard.push({ name, score: parseInt(score) });
-        return res.send(`Player ${name} with score ${score} added.`);
+        const newEntry = { name, score };
+        leaderboard.push(newEntry);
+        const response = `Player ${name} with score ${score} added.`;
+        return res.send(response);
     } else {
-        return res.status(400).send("Invalid parameters, 'name' and 'score' are required.");
+        const errorResponse = "Invalid parameters, 'name' and 'score' are required.";
+        return res.status(400).send(errorResponse);
     }
 });
 
@@ -29,7 +32,8 @@ app.get("/leaderboard", (_req, res) => {
 
 app.post("/reset", (_req, res) => {
     leaderboard.length = 0;
-    return res.send("Leaderboard has been reset.");
+    const response = "Leaderboard has been reset.";
+    return res.send(response);
 });
 
 app.listen(3123);
